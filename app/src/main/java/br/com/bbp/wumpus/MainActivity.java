@@ -182,6 +182,8 @@ public class MainActivity extends Activity {
     }
 
     public boolean verifyMovement(int nextPosition, int [] array){
+        /* VERIFICA SE O MOVIMENTO FEITO FEZ VOCÊ MORRER*/
+
         if (array[nextPosition] == R.drawable.hole){
             Toast.makeText(getApplicationContext(),"Você caiu no buraco e morreu",Toast.LENGTH_LONG).show();
             return false;
