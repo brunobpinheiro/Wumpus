@@ -3,12 +3,14 @@ package br.com.bbp.wumpus;
 import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
+import android.graphics.Color;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
 import android.widget.GridView;
 import android.widget.ImageButton;
+import android.widget.ImageView;
 import android.widget.Toast;
 
 import java.util.ArrayList;
@@ -36,14 +38,17 @@ public class MainActivity extends Activity {
 
         gridView = (GridView) findViewById(R.id.grid_view);
         gridView.setNumColumns(size);
+        gridView.setBackgroundColor(Color.WHITE);
+
         final int [] array = new int [(int) Math.pow(size,2)];
 
         Random random = new Random();
         int wumpus = random.nextInt(array.length);
+        int gold = random.nextInt(array.length);
         setCurrentHunterPosition(array.length - size);
         position = getCurrentHunterPosition();
 
-        for (int i = 0; i < (array.length * 15)/100; i++){
+        for (int i = 0; i < (array.length * 7)/100; i++){
             array[random.nextInt(array.length)] = R.drawable.hole;
         }
         for (int i = 0; i < array.length; i++){
@@ -54,6 +59,7 @@ public class MainActivity extends Activity {
 
         array[position] = R.drawable.hunter_boy;
         array[wumpus] = R.drawable.wumpus;
+        array[gold] = R.drawable.gold;
 
         final GridAdapter gridAdapter = new GridAdapter(this, array);
         gridView.setAdapter(gridAdapter);
@@ -66,9 +72,7 @@ public class MainActivity extends Activity {
         buttonUp.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                array[getCurrentHunterPosition()] = R.drawable.blank_space;
-                array[getCurrentHunterPosition()-size] = R.drawable.hunter_boy;
-                setCurrentHunterPosition(getCurrentHunterPosition()-size);
+                ImageView iv = new ImageView(getApplicationContext());
 
             }
         });
