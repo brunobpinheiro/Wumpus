@@ -38,7 +38,6 @@ public class MainActivity extends Activity {
 
         gridView = (GridView) findViewById(R.id.grid_view);
         gridView.setNumColumns(size);
-        //gridView.setBackgroundColor(Color.WHITE);
 
         final int [] array = new int [(int) Math.pow(size,2)];
 
@@ -46,7 +45,6 @@ public class MainActivity extends Activity {
         int wumpus = random.nextInt(array.length);
         int gold = random.nextInt(array.length);
         setCurrentHunterPosition(array.length - size);
-        position = getCurrentHunterPosition();
 
         for (int i = 0; i < (array.length * 7)/100; i++){
             array[random.nextInt(array.length)] = R.drawable.hole;
@@ -58,14 +56,17 @@ public class MainActivity extends Activity {
         }
 
         array[position] = R.drawable.hunter_boy;
+        while (wumpus == array.length-size){
+            wumpus = random.nextInt(array.length);
+        }
         array[wumpus] = R.drawable.wumpus;
-        while (wumpus == gold){
+        while (wumpus == gold || gold == array.length-size){
             gold = random.nextInt(array.length);
         }
         array[gold] = R.drawable.gold;
 
-        final GridAdapter gridAdapter = new GridAdapter(this, array);
-        gridView.setAdapter(gridAdapter);
+        final GridAdapter[] gridAdapter = {new GridAdapter(this, array)};
+        gridView.setAdapter(gridAdapter[0]);
 
         buttonUp = (ImageButton) findViewById(R.id.btn_up);
         buttonBotton = (ImageButton) findViewById(R.id.btn_botton);
@@ -75,15 +76,52 @@ public class MainActivity extends Activity {
         buttonUp.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                ImageView iv = new ImageView(getApplicationContext());
 
+                if (getCurrentHunterPosition() >= size) {
+
+                    if (verifyMovement(getCurrentHunterPosition()-size,array)) {
+
+                        array[getCurrentHunterPosition()] = R.drawable.blank_space;
+                        array[getCurrentHunterPosition() - size] = R.drawable.hunter_boy;
+                        setCurrentHunterPosition(getCurrentHunterPosition() - size);
+                        gridAdapter[0] = new GridAdapter(getApplicationContext(), array);
+                        gridView.setAdapter(gridAdapter[0]);
+                    }else {
+                        finish();
+                        /*Intent intentBack =  new Intent(MainActivity.this,SetSizeActivity.class);
+                        intentBack.setFlags(Intent.FLAG_ACTIVITY_NO_HISTORY);
+                        startActivity(intentBack);*/
+                    }
+                } else {
+                    Toast.makeText(getApplicationContext(),"Movimento não permitido",Toast.LENGTH_SHORT).show();
+                }
             }
         });
 
         buttonRight.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Toast.makeText(MainActivity.this, "andou para direita", Toast.LENGTH_SHORT).show();
+                int auth = 0;
+
+                for (int i = (size - 1); i < array.length; i += (size)) {
+                    if (getCurrentHunterPosition() == i) {
+                        auth = 1;
+                    }
+                }
+                if (auth == 0) {
+
+                    if (verifyMovement(getCurrentHunterPosition() + 1, array)) {
+                        array[getCurrentHunterPosition()] = R.drawable.blank_space;
+                        array[getCurrentHunterPosition() + 1] = R.drawable.hunter_boy;
+                        setCurrentHunterPosition(getCurrentHunterPosition() + 1);
+                        gridAdapter[0] = new GridAdapter(getApplicationContext(), array);
+                        gridView.setAdapter(gridAdapter[0]);
+                    } else {
+                        finish();
+                    }
+                } else {
+                    Toast.makeText(getApplicationContext(), "Movimento não permitido", Toast.LENGTH_SHORT).show();
+                }
 
             }
         });
@@ -91,7 +129,25 @@ public class MainActivity extends Activity {
         buttonLeft.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Toast.makeText(MainActivity.this, "andou para esquerda", Toast.LENGTH_SHORT).show();
+                int auth = 0;
+                for (int i = (size); i < array.length; i += (size)) {
+                    if (getCurrentHunterPosition() == i) {
+                        auth = 1;
+                    }
+                }
+                if (auth == 0) {
+                    if (verifyMovement(getCurrentHunterPosition()-1,array)) {
+                        array[getCurrentHunterPosition()] = R.drawable.blank_space;
+                        array[getCurrentHunterPosition() - 1] = R.drawable.hunter_boy;
+                        setCurrentHunterPosition(getCurrentHunterPosition() - 1);
+                        gridAdapter[0] = new GridAdapter(getApplicationContext(), array);
+                        gridView.setAdapter(gridAdapter[0]);
+                    } else {
+                        finish();
+                    }
+                } else {
+                    Toast.makeText(getApplicationContext(), "Movimento não permitido", Toast.LENGTH_SHORT).show();
+                }
 
             }
         });
@@ -99,7 +155,19 @@ public class MainActivity extends Activity {
         buttonBotton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Toast.makeText(getApplicationContext(), "andou para baixo", Toast.LENGTH_SHORT).show();
+                if (getCurrentHunterPosition() < array.length - size) {
+                    if (verifyMovement(getCurrentHunterPosition()+size,array)) {
+                        array[getCurrentHunterPosition()] = R.drawable.blank_space;
+                        array[getCurrentHunterPosition() + size] = R.drawable.hunter_boy;
+                        setCurrentHunterPosition(getCurrentHunterPosition() + size);
+                        gridAdapter[0] = new GridAdapter(getApplicationContext(), array);
+                        gridView.setAdapter(gridAdapter[0]);
+                    } else {
+                        finish();
+                    }
+                } else {
+                    Toast.makeText(getApplicationContext(), "Movimento não permitido", Toast.LENGTH_SHORT).show();
+                }
 
             }
         });
@@ -111,6 +179,20 @@ public class MainActivity extends Activity {
 
     public void setCurrentHunterPosition(int position){
         this.position = position;
+    }
+
+    public boolean verifyMovement(int nextPosition, int [] array){
+        if (array[nextPosition] == R.drawable.hole){
+            Toast.makeText(getApplicationContext(),"Você caiu no buraco e morreu",Toast.LENGTH_LONG).show();
+            return false;
+        } else if (array[nextPosition] == R.drawable.wumpus){
+            Toast.makeText(getApplicationContext(),"Você foi atacado pelo Wumpus e morreu",Toast.LENGTH_LONG).show();
+            return false;
+        } else if (array[nextPosition] == R.drawable.gold){
+            Toast.makeText(getApplicationContext(),"Parabéns você achou o ouro",Toast.LENGTH_LONG).show();
+            return false;
+        }
+        return true;
     }
 
 }
