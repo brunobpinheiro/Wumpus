@@ -38,7 +38,7 @@ public class MainActivity extends Activity {
 
         gridView = (GridView) findViewById(R.id.grid_view);
         gridView.setNumColumns(size);
-        gridView.setBackgroundColor(Color.WHITE);
+        //gridView.setBackgroundColor(Color.WHITE);
 
         final int [] array = new int [(int) Math.pow(size,2)];
 
@@ -59,6 +59,9 @@ public class MainActivity extends Activity {
 
         array[position] = R.drawable.hunter_boy;
         array[wumpus] = R.drawable.wumpus;
+        while (wumpus == gold){
+            gold = random.nextInt(array.length);
+        }
         array[gold] = R.drawable.gold;
 
         final GridAdapter gridAdapter = new GridAdapter(this, array);
