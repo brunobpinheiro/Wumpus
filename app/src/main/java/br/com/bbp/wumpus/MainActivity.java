@@ -37,13 +37,12 @@ public class MainActivity extends Activity {
         gridView = (GridView) findViewById(R.id.grid_view);
         gridView.setNumColumns(size);
         final int [] array = new int [(int) Math.pow(size,2)];
-        //int [] imageList = new int [] {R.drawable.blank_space, R.drawable.hole};
 
         Random random = new Random();
         int wumpus = random.nextInt(array.length);
-        setCurrentPosition(array.length - size);
-        position = getCurrentPosition();
-        
+        setCurrentHunterPosition(array.length - size);
+        position = getCurrentHunterPosition();
+
         for (int i = 0; i < (array.length * 15)/100; i++){
             array[random.nextInt(array.length)] = R.drawable.hole;
         }
@@ -67,9 +66,9 @@ public class MainActivity extends Activity {
         buttonUp.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                array[getCurrentPosition()] = R.drawable.blank_space;
-                array[getCurrentPosition()-size] = R.drawable.hunter_boy;
-                setCurrentPosition(getCurrentPosition()-size);
+                array[getCurrentHunterPosition()] = R.drawable.blank_space;
+                array[getCurrentHunterPosition()-size] = R.drawable.hunter_boy;
+                setCurrentHunterPosition(getCurrentHunterPosition()-size);
 
             }
         });
@@ -99,11 +98,11 @@ public class MainActivity extends Activity {
         });
 
     }
-    public int getCurrentPosition(){
+    public int getCurrentHunterPosition(){
         return position;
     }
 
-    public void setCurrentPosition(int position){
+    public void setCurrentHunterPosition(int position){
         this.position = position;
     }
 
