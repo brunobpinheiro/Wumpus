@@ -3,9 +3,11 @@ package br.com.bbp.wumpus;
 import android.content.Intent;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.text.Editable;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.Toast;
 
 import java.util.EmptyStackException;
 
@@ -26,11 +28,21 @@ public class SetSizeActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
 
-                Intent intent = new Intent(SetSizeActivity.this, MainActivity.class);
-                Bundle bundle = new Bundle();
-                bundle.putString("size",fieldSize.getText().toString());
-                intent.putExtras(bundle);
-                startActivity(intent);
+                if (fieldSize.getText().toString().isEmpty()){
+                    Toast.makeText(getApplicationContext(),"Você deve escrever um número entre 5 e 20",Toast.LENGTH_LONG).show();
+                } else {
+                    int size = Integer.parseInt(fieldSize.getText().toString());
+                    if (size > 4 && size <= 20) {
+                        Intent intent = new Intent(SetSizeActivity.this, MainActivity.class);
+                        Bundle bundle = new Bundle();
+                        bundle.putString("size", fieldSize.getText().toString());
+                        intent.putExtras(bundle);
+                        startActivity(intent);
+                    } else {
+                        Toast.makeText(getApplicationContext(), "O número deve estar entre 5 e 20", Toast.LENGTH_LONG).show();
+                    }
+                }
+
 
             }
         });

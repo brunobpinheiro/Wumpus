@@ -4,6 +4,7 @@ import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
 import android.graphics.Color;
+import android.media.MediaPlayer;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.util.Log;
@@ -41,9 +42,12 @@ public class MainActivity extends Activity {
 
         final int [] array = new int [(int) Math.pow(size,2)];
 
+        final MediaPlayer somBrisa = MediaPlayer.create(this,R.raw.brisa);
+        final MediaPlayer somMonstro = MediaPlayer.create(this, R.raw.monstro);
+
         Random random = new Random();
         int wumpus = random.nextInt(array.length);
-        int gold = random.nextInt(array.length);
+        int gold = random.nextInt(array.length/2);
         setCurrentHunterPosition(array.length - size);
 
         for (int i = 0; i < (array.length * 7)/100; i++){
@@ -56,12 +60,12 @@ public class MainActivity extends Activity {
         }
 
         array[position] = R.drawable.hunter_boy;
-        while (wumpus == array.length-size){
+        while (wumpus == array.length-size || wumpus < (array.length/2)){
             wumpus = random.nextInt(array.length);
         }
         array[wumpus] = R.drawable.wumpus;
         while (wumpus == gold || gold == array.length-size){
-            gold = random.nextInt(array.length);
+            gold = random.nextInt(array.length/2);
         }
         array[gold] = R.drawable.gold;
 
@@ -86,6 +90,7 @@ public class MainActivity extends Activity {
                         setCurrentHunterPosition(getCurrentHunterPosition() - size);
                         gridAdapter[0] = new GridAdapter(getApplicationContext(), array);
                         gridView.setAdapter(gridAdapter[0]);
+                        //verifySounds(getCurrentHunterPosition()-size,array,size,somMonstro,somBrisa);
                     }else {
                         finish();
                         /*Intent intentBack =  new Intent(MainActivity.this,SetSizeActivity.class);
@@ -102,7 +107,6 @@ public class MainActivity extends Activity {
             @Override
             public void onClick(View v) {
                 int auth = 0;
-
                 for (int i = (size - 1); i < array.length; i += (size)) {
                     if (getCurrentHunterPosition() == i) {
                         auth = 1;
@@ -111,11 +115,13 @@ public class MainActivity extends Activity {
                 if (auth == 0) {
 
                     if (verifyMovement(getCurrentHunterPosition() + 1, array)) {
+
                         array[getCurrentHunterPosition()] = R.drawable.blank_space;
                         array[getCurrentHunterPosition() + 1] = R.drawable.hunter_boy;
                         setCurrentHunterPosition(getCurrentHunterPosition() + 1);
                         gridAdapter[0] = new GridAdapter(getApplicationContext(), array);
                         gridView.setAdapter(gridAdapter[0]);
+                        //verifySounds(getCurrentHunterPosition() + 1,array,size,somMonstro,somBrisa);
                     } else {
                         finish();
                     }
@@ -137,11 +143,13 @@ public class MainActivity extends Activity {
                 }
                 if (auth == 0) {
                     if (verifyMovement(getCurrentHunterPosition()-1,array)) {
+
                         array[getCurrentHunterPosition()] = R.drawable.blank_space;
                         array[getCurrentHunterPosition() - 1] = R.drawable.hunter_boy;
                         setCurrentHunterPosition(getCurrentHunterPosition() - 1);
                         gridAdapter[0] = new GridAdapter(getApplicationContext(), array);
                         gridView.setAdapter(gridAdapter[0]);
+                        //verifySounds(getCurrentHunterPosition()-1,array,size,somMonstro,somBrisa);
                     } else {
                         finish();
                     }
@@ -155,13 +163,15 @@ public class MainActivity extends Activity {
         buttonBotton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                if (getCurrentHunterPosition() < array.length - size) {
+                if (getCurrentHunterPosition() < (array.length - size)) {
                     if (verifyMovement(getCurrentHunterPosition()+size,array)) {
+
                         array[getCurrentHunterPosition()] = R.drawable.blank_space;
                         array[getCurrentHunterPosition() + size] = R.drawable.hunter_boy;
                         setCurrentHunterPosition(getCurrentHunterPosition() + size);
                         gridAdapter[0] = new GridAdapter(getApplicationContext(), array);
                         gridView.setAdapter(gridAdapter[0]);
+                        //verifySounds(getCurrentHunterPosition()+size,array,size,somMonstro,somBrisa);
                     } else {
                         finish();
                     }
@@ -195,6 +205,22 @@ public class MainActivity extends Activity {
             return false;
         }
         return true;
+    }
+    public void verifySounds (int nextPosition, int [] array, int size, MediaPlayer somMonstro, MediaPlayer somBrisa){
+
+        if (array[nextPosition+1] == R.drawable.hole
+                || array[nextPosition-1] == R.drawable.hole
+                || array[nextPosition+size] == R.drawable.hole
+                || array[nextPosition-size] == R.drawable.hole){
+            somBrisa.start();
+        }
+        if (array[nextPosition+1] == R.drawable.wumpus
+                || array[nextPosition-1] == R.drawable.wumpus
+                || array[nextPosition+size] == R.drawable.wumpus
+                || array[nextPosition-size] == R.drawable.wumpus){
+            somMonstro.start();
+        }
+
     }
 
 }
