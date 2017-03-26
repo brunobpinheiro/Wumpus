@@ -51,7 +51,6 @@ public class GridAdapter extends BaseAdapter {
 
         ImageView imageView = new ImageView(context);
         imageView.setImageResource(array[position]);
-        //imageView.setImageResource(position == array.length - size ? R.drawable.hunter_boy : R.drawable.terreno);
         imageView.setAdjustViewBounds(true);
         return imageView;
     }
