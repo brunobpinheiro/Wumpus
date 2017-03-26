@@ -1,6 +1,7 @@
 package br.com.bbp.wumpus;
 
 import android.content.Context;
+import android.content.SharedPreferences;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -17,13 +18,17 @@ import java.util.List;
 
 public class GridAdapter extends BaseAdapter {
 
-    private int [] array;
+    private int[] array;
     private Context context;
+    private int size;
 
-    public GridAdapter(Context context, int [] array) {
+    public GridAdapter(Context context, int[] array) {
 
         this.context = context;
         this.array = array;
+
+        SharedPreferences sharedPreferences = context.getSharedPreferences("PREFERENCE", Context.MODE_PRIVATE);
+        size = sharedPreferences.getInt("size", 0);
     }
 
     @Override
@@ -43,10 +48,10 @@ public class GridAdapter extends BaseAdapter {
 
     @Override
     public View getView(int position, View convertView, ViewGroup parent) {
-        //View view = LayoutInflater.from(context).inflate(R.layout.adapter_grid, parent, false);
-        //ImageView imageView = (ImageView) view.findViewById(R.id.image);
+
         ImageView imageView = new ImageView(context);
         imageView.setImageResource(array[position]);
+        //imageView.setImageResource(position == array.length - size ? R.drawable.hunter_boy : R.drawable.terreno);
         imageView.setAdjustViewBounds(true);
         return imageView;
     }
