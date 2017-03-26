@@ -91,6 +91,8 @@ public class MainActivity extends Activity implements View.OnClickListener {
             Toast.makeText(getApplicationContext(), "Você foi atacado pelo Wumpus e morreu", Toast.LENGTH_LONG).show();
             return false;
         } else if (array[nextPosition] == R.drawable.gold) {
+            MediaPlayer ouro = MediaPlayer.create(this,R.raw.ouro_caindo);
+            ouro.start();
             Toast.makeText(getApplicationContext(), "Parabéns você achou o ouro", Toast.LENGTH_LONG).show();
             return false;
         }
