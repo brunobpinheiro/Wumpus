@@ -48,6 +48,10 @@ public class MainActivity extends Activity implements View.OnClickListener {
 
         gridAdapter = new GridAdapter[]{new GridAdapter(this, arrayAux)};
         gridView.setAdapter(gridAdapter[0]);
+
+        SharedPreferences sharedPreferences = getSharedPreferences("PREFERENCE", MODE_PRIVATE);
+        TextView recorde = (TextView) findViewById(R.id.recorde);
+        recorde.setText(String.valueOf(sharedPreferences.getInt("recorde", 0)));
     }
 
     private void initSetup() {
@@ -372,7 +376,11 @@ public class MainActivity extends Activity implements View.OnClickListener {
     }
 
     private void attPontos(int pontos) {
-        TextView textView = (TextView) findViewById(R.id.pontos);
-        textView.setText("Pontos: " + pontos);
+        TextView tvPontos = (TextView) findViewById(R.id.pontos);
+        tvPontos.setText("Pontos: " + pontos);
+
+        SharedPreferences.Editor editor = getSharedPreferences("PREFERENCE", MODE_PRIVATE).edit();
+        editor.putInt("recorde", pontos);
+        editor.apply();
     }
 }
