@@ -48,10 +48,6 @@ public class MainActivity extends Activity implements View.OnClickListener {
 
         gridAdapter = new GridAdapter[]{new GridAdapter(this, arrayAux)};
         gridView.setAdapter(gridAdapter[0]);
-
-        SharedPreferences sharedPreferences = getSharedPreferences("PREFERENCE", MODE_PRIVATE);
-        TextView recorde = (TextView) findViewById(R.id.recorde);
-        recorde.setText(String.valueOf(sharedPreferences.getInt("recorde", 0)));
     }
 
     private void initSetup() {
@@ -94,7 +90,7 @@ public class MainActivity extends Activity implements View.OnClickListener {
     }
 
     public boolean verifyMovement(int nextPosition) {
-
+        boolean retorno = true;
         pontos--;
 
         if (array[nextPosition] == R.drawable.hole) {
@@ -103,14 +99,14 @@ public class MainActivity extends Activity implements View.OnClickListener {
             gridView.setAdapter(gridAdapter[0]);
             Toast.makeText(getApplicationContext(), "Você caiu no buraco e morreu", Toast.LENGTH_LONG).show();
             pontos -= 1000;
-            return false;
+            retorno = false;
         } else if (array[nextPosition] == R.drawable.wumpus) {
             arrayAux[nextPosition] = R.drawable.wumpus;
             gridAdapter[0] = new GridAdapter(getApplicationContext(), arrayAux);
             gridView.setAdapter(gridAdapter[0]);
             Toast.makeText(getApplicationContext(), "Você foi atacado pelo Wumpus e morreu", Toast.LENGTH_LONG).show();
             pontos -= 1000;
-            return false;
+            retorno = false;
         } else if (array[nextPosition] == R.drawable.gold) {
             MediaPlayer ouro = MediaPlayer.create(this, R.raw.ouro_caindo);
             ouro.start();
@@ -119,11 +115,11 @@ public class MainActivity extends Activity implements View.OnClickListener {
             gridView.setAdapter(gridAdapter[0]);
             Toast.makeText(getApplicationContext(), "Parabéns você achou o ouro", Toast.LENGTH_LONG).show();
             pontos += 1000;
-            return false;
+            retorno = false;
         }
 
         attPontos(pontos);
-        return true;
+        return retorno;
     }
 
     public void verifySounds(int nextPosition, int size) {
