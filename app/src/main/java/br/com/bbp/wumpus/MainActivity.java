@@ -38,7 +38,7 @@ public class MainActivity extends Activity implements View.OnClickListener {
 
         initSetup();
 
-        gridAdapter = new GridAdapter[]{new GridAdapter(this, array)};
+        gridAdapter = new GridAdapter[]{new GridAdapter(this, arrayAux)};
         gridView.setAdapter(gridAdapter[0]);
     }
 
