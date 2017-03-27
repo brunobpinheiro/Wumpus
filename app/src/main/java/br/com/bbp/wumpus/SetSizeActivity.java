@@ -58,4 +58,16 @@ public class SetSizeActivity extends AppCompatActivity {
 
 
     }
+
+    @Override
+    protected void onResume() {
+        SharedPreferences sharedPreferences = getSharedPreferences("PREFERENCE", MODE_PRIVATE);
+        int recorde = sharedPreferences.getInt("recorde", 0);
+        String textoRecorde = recorde < 0 ? "Recorde: " + 0 : "Recorde: " + recorde;
+
+        TextView tvRecorde = (TextView) findViewById(R.id.recorde);
+        tvRecorde.setText(textoRecorde);
+
+        super.onResume();
+    }
 }

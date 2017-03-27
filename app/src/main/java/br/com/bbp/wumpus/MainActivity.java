@@ -360,6 +360,7 @@ public class MainActivity extends Activity implements View.OnClickListener {
                                 pontos -= 10;
                             }
                             hasArrow = false;
+                            attPontos(pontos);
                         }
                     }
                 });
@@ -374,9 +375,17 @@ public class MainActivity extends Activity implements View.OnClickListener {
     private void attPontos(int pontos) {
         TextView tvPontos = (TextView) findViewById(R.id.pontos);
         tvPontos.setText("Pontos: " + pontos);
+    }
+
+    @Override
+    protected void onDestroy() {
+        SharedPreferences sharedPreferences = getSharedPreferences("PREFERENCE", MODE_PRIVATE);
+        int oldRecord = sharedPreferences.getInt("record", 0);
 
         SharedPreferences.Editor editor = getSharedPreferences("PREFERENCE", MODE_PRIVATE).edit();
-        editor.putInt("recorde", pontos);
+        editor.putInt("recorde", pontos >= oldRecord ? pontos : oldRecord);
         editor.apply();
+
+        super.onDestroy();
     }
 }
