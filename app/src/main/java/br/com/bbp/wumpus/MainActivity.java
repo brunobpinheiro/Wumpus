@@ -375,9 +375,10 @@ public class MainActivity extends Activity implements View.OnClickListener {
     }
 
     private void attPontos(int pontos) {
+
         TextView tvPontos = (TextView) findViewById(R.id.pontos);
         tvPontos.setText("Pontos: " + pontos);
-
+        //onDestroy vem depois do onResume da acativity anterior
         SharedPreferences sharedPreferences = getSharedPreferences("PREFERENCE", MODE_PRIVATE);
         int oldRecord = sharedPreferences.getInt("record", 0);
 
