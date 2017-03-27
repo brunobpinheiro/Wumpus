@@ -82,17 +82,25 @@ public class MainActivity extends Activity implements View.OnClickListener {
     }
 
     public boolean verifyMovement(int nextPosition) {
-        /* VERIFICA SE O MOVIMENTO FEITO FEZ VOCÊ MORRER*/
 
         if (array[nextPosition] == R.drawable.hole) {
+            arrayAux[nextPosition] = R.drawable.hole;
+            gridAdapter[0] = new GridAdapter(getApplicationContext(), arrayAux);
+            gridView.setAdapter(gridAdapter[0]);
             Toast.makeText(getApplicationContext(), "Você caiu no buraco e morreu", Toast.LENGTH_LONG).show();
             return false;
         } else if (array[nextPosition] == R.drawable.wumpus) {
+            arrayAux[nextPosition] = R.drawable.wumpus;
+            gridAdapter[0] = new GridAdapter(getApplicationContext(), arrayAux);
+            gridView.setAdapter(gridAdapter[0]);
             Toast.makeText(getApplicationContext(), "Você foi atacado pelo Wumpus e morreu", Toast.LENGTH_LONG).show();
             return false;
         } else if (array[nextPosition] == R.drawable.gold) {
             MediaPlayer ouro = MediaPlayer.create(this,R.raw.ouro_caindo);
             ouro.start();
+            arrayAux[nextPosition] = R.drawable.gold;
+            gridAdapter[0] = new GridAdapter(getApplicationContext(), arrayAux);
+            gridView.setAdapter(gridAdapter[0]);
             Toast.makeText(getApplicationContext(), "Parabéns você achou o ouro", Toast.LENGTH_LONG).show();
             return false;
         }
