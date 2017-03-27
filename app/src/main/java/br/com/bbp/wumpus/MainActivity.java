@@ -354,6 +354,7 @@ public class MainActivity extends Activity implements View.OnClickListener {
                         if (shoot) {
                             if (hunterKilledWumpus(posicaoTiro)) {
                                 Toast.makeText(MainActivity.this, "Parabéns! Você matou o wumpus", Toast.LENGTH_LONG).show();
+                                array[posicaoTiro] = R.drawable.terreno;
                                 pontos += 10000;
                                 pontos -= 10;
                             } else {
@@ -376,10 +377,7 @@ public class MainActivity extends Activity implements View.OnClickListener {
     private void attPontos(int pontos) {
         TextView tvPontos = (TextView) findViewById(R.id.pontos);
         tvPontos.setText("Pontos: " + pontos);
-    }
 
-    @Override
-    protected void onDestroy() {
         SharedPreferences sharedPreferences = getSharedPreferences("PREFERENCE", MODE_PRIVATE);
         int oldRecord = sharedPreferences.getInt("record", 0);
 
@@ -387,6 +385,6 @@ public class MainActivity extends Activity implements View.OnClickListener {
         editor.putInt("recorde", pontos >= oldRecord ? pontos : oldRecord);
         editor.apply();
 
-        super.onDestroy();
     }
+
 }
