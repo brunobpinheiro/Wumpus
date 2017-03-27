@@ -1,3 +1,10 @@
 <resources>
     <string name="app_name">Wumpus</string>
+
+    <array name="direcoes">
+        <item>Cima</item>
+        <item>Baixo</item>
+        <item>Direita</item>
+        <item>Esquerda</item>
+    </array>
 </resources>
