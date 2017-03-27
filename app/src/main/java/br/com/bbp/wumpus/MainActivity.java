@@ -100,6 +100,7 @@ public class MainActivity extends Activity implements View.OnClickListener {
             gridView.setAdapter(gridAdapter[0]);
             Toast.makeText(getApplicationContext(), "Você caiu no buraco e morreu", Toast.LENGTH_LONG).show();
             pontos -= 1000;
+            updateRecord();
             retorno = false;
         } else if (array[nextPosition] == R.drawable.wumpus) {
             arrayAux[nextPosition] = R.drawable.wumpus;
@@ -107,6 +108,7 @@ public class MainActivity extends Activity implements View.OnClickListener {
             gridView.setAdapter(gridAdapter[0]);
             Toast.makeText(getApplicationContext(), "Você foi atacado pelo Wumpus e morreu", Toast.LENGTH_LONG).show();
             pontos -= 1000;
+            updateRecord();
             retorno = false;
         } else if (array[nextPosition] == R.drawable.gold) {
             MediaPlayer ouro = MediaPlayer.create(this, R.raw.ouro_caindo);
@@ -116,6 +118,7 @@ public class MainActivity extends Activity implements View.OnClickListener {
             gridView.setAdapter(gridAdapter[0]);
             Toast.makeText(getApplicationContext(), "Parabéns você achou o ouro", Toast.LENGTH_LONG).show();
             pontos += 1000;
+            updateRecord();
             retorno = false;
         }
 
@@ -378,14 +381,18 @@ public class MainActivity extends Activity implements View.OnClickListener {
 
         TextView tvPontos = (TextView) findViewById(R.id.pontos);
         tvPontos.setText("Pontos: " + pontos);
-        //onDestroy vem depois do onResume da acativity anterior
+
+    }
+
+    private void updateRecord() {
+
         SharedPreferences sharedPreferences = getSharedPreferences("PREFERENCE", MODE_PRIVATE);
-        int oldRecord = sharedPreferences.getInt("record", 0);
+
+        int oldRecord = sharedPreferences.getInt("recorde", 0);
 
         SharedPreferences.Editor editor = getSharedPreferences("PREFERENCE", MODE_PRIVATE).edit();
         editor.putInt("recorde", pontos >= oldRecord ? pontos : oldRecord);
         editor.apply();
-
     }
 
 }
