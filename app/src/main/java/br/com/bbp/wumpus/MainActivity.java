@@ -59,7 +59,7 @@ public class MainActivity extends Activity implements View.OnClickListener {
         int gold = random.nextInt(array.length / 2);
         setCurrentHunterPosition(array.length - size);
 
-        for (int i = 0; i < (array.length * 7) / 100; i++) {
+        for (int i = 0; i < (array.length * 14) / 100; i++) {
             array[random.nextInt(array.length)] = R.drawable.hole;
         }
 
@@ -79,6 +79,7 @@ public class MainActivity extends Activity implements View.OnClickListener {
                 array[i] = R.drawable.terreno_pisado;
             }
         }
+        array[getCurrentHunterPosition()] = R.drawable.hunter_boy;
     }
 
     public int getCurrentHunterPosition() {
