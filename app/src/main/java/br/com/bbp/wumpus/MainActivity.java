@@ -38,7 +38,7 @@ public class MainActivity extends Activity implements View.OnClickListener {
 
         initSetup();
 
-        gridAdapter = new GridAdapter[]{new GridAdapter(this, arrayAux)};
+        gridAdapter = new GridAdapter[]{new GridAdapter(this, array)};
         gridView.setAdapter(gridAdapter[0]);
     }
 
@@ -101,13 +101,28 @@ public class MainActivity extends Activity implements View.OnClickListener {
 
     public void verifySounds(int nextPosition, int size) {
         MediaPlayer somBrisa = MediaPlayer.create(this, R.raw.brisa);
-        if (nextPosition - 1 >= 0) {
+
+        int auth = 0;
+        for (int i = (size); i < array.length; i += (size)) {
+            if (getCurrentHunterPosition() == i) {
+                auth = 1;
+            }
+        }
+
+        if (nextPosition - 1 >= 0 && auth == 0) {
             if (array[nextPosition - 1] == R.drawable.hole) {
                 somBrisa.start();
             }
         }
 
-        if (nextPosition + 1 < array.length) {
+        auth=0;
+        for (int i = (size - 1); i < array.length; i += (size)) {
+            if (getCurrentHunterPosition() == i) {
+                auth=1;
+            }
+        }
+
+        if (nextPosition + 1 < array.length && auth == 0) {
             if (array[nextPosition + 1] == R.drawable.hole) {
                 somBrisa.start();
             }
@@ -126,13 +141,24 @@ public class MainActivity extends Activity implements View.OnClickListener {
         }
 
         MediaPlayer somMonstro = MediaPlayer.create(this, R.raw.monstro);
-        if (nextPosition - 1 >= 0) {
+        auth = 0;
+        for (int i = (size); i < array.length; i += (size)) {
+            if (getCurrentHunterPosition() == i) {
+                auth = 1;
+            }
+        }
+        if (nextPosition - 1 >= 0 && auth ==0) {
             if (array[nextPosition - 1] == R.drawable.wumpus) {
                 somMonstro.start();
             }
         }
-
-        if (nextPosition + 1 < array.length) {
+        auth=0;
+        for (int i = (size - 1); i < array.length; i += (size)) {
+            if (getCurrentHunterPosition() == i) {
+                auth=1;
+            }
+        }
+        if (nextPosition + 1 < array.length && auth == 0) {
             if (array[nextPosition + 1] == R.drawable.wumpus) {
                 somMonstro.start();
             }
