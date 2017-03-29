@@ -48,6 +48,7 @@ public class MainActivity extends Activity implements View.OnClickListener {
 
         gridAdapter = new GridAdapter[]{new GridAdapter(this, arrayAux)};
         gridView.setAdapter(gridAdapter[0]);
+        verifySounds(array.length - size,size);
     }
 
     private void initSetup() {
@@ -221,9 +222,6 @@ public class MainActivity extends Activity implements View.OnClickListener {
                         verifySounds(getCurrentHunterPosition(), size);
                     } else {
                         finish();
-                        /*Intent intentBack =  new Intent(MainActivity.this,SetSizeActivity.class);
-                        intentBack.setFlags(Intent.FLAG_ACTIVITY_NO_HISTORY);
-                        startActivity(intentBack);*/
                     }
                 } else {
                     Toast.makeText(getApplicationContext(), "Movimento não permitido", Toast.LENGTH_SHORT).show();
