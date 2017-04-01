@@ -14,6 +14,7 @@
         android:numColumns="4"
         android:padding="16dp" />
 
+
     <TextView
         android:id="@+id/pontos"
         android:layout_width="match_parent"
@@ -23,6 +24,10 @@
         android:text="Pontos: 0"
         android:textColor="@android:color/black"
         android:textSize="24sp" />
+
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content" />
 
     <RelativeLayout
         android:layout_width="match_parent"

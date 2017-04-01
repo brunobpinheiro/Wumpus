@@ -1,10 +1,12 @@
 package br.com.bbp.wumpus;
 
+import android.app.Dialog;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
-import android.text.Editable;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
@@ -29,6 +31,8 @@ public class SetSizeActivity extends AppCompatActivity {
 
         TextView tvRecorde = (TextView) findViewById(R.id.recorde);
         tvRecorde.setText(textoRecorde);
+
+        inflarDialogDirecao();
 
         buttonStart = (Button) findViewById(R.id.buttonStartId);
         fieldSize = (EditText) findViewById(R.id.fieldSizeId);
@@ -57,6 +61,19 @@ public class SetSizeActivity extends AppCompatActivity {
         });
 
 
+    }
+
+    private Dialog inflarDialogDirecao() {
+        AlertDialog.Builder builder = new AlertDialog.Builder(this);
+        builder.setTitle("Você deve estar com o som ativado para jogar")
+        .setPositiveButton("Ok", new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+
+            }
+        }).show();
+
+        return builder.create();
     }
 
     @Override

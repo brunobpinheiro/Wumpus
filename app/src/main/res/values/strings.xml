@@ -1,6 +1,7 @@
 <resources>
     <string name="app_name">Wumpus</string>
 
+
     <array name="direcoes">
         <item>Cima</item>
         <item>Baixo</item>
